@@ -3,7 +3,6 @@
 
 Vagrant.configure(2) do |config|
   
-
   #Boxes are the package format for Vagrant environments. A box can be used by anyone on any platform that Vagrant supports 
   #to bring up an identical working environment.
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"	
@@ -13,8 +12,6 @@ Vagrant.configure(2) do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network "forwarded_port", guest: 80, host: 8080
-
-
   #Vagrant Shell provisioner allows you to upload and execute a script within the guest machine. 
   #For more information visit https://www.vagrantup.com/docs/provisioning/shell.html
   config.vm.provision "shell", path: "provision.sh"
