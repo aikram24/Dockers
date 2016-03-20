@@ -13,7 +13,7 @@ Vagrant.configure(2) do |config|
 		web.vm.network	"private_network", type: "dhcp"
 		web.vm.network "forwarded_port", guest: 80, host: 8080
 		web.vm.provision "puppet" do |puppet|
-			puppet.manifests_parth = "manifests"
+			puppet.manifests_path = "manifests"
 	end
 end
 end
