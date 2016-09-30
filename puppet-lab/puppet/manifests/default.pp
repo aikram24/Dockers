@@ -52,10 +52,21 @@ exec { "git clone":
 
 file { "/etc/nginx/nginx.conf":
 	 ensure => present,
-	 owner => 0,
-	 group => 0,
-	 source=>"file:///vagrant/puppet/conf/nginx.conf"
+	 owner => "root",
+	 group => "root",
+	 source=>"file:///vagrant/puppet/conf/nginx.conf",
+	 require => [ File["/var/log/nginx/access.log"], File["/var/log/nginx/error.log"] ],
 	 }
+file { "/var/log/nginx/access.log":
+         ensure => present,
+	 owner => "www-data",
+         group => "www-data",
+}
+file { "/var/log/nginx/error.log":
+         ensure => present,
+         owner => "www-data",
+         group => "www-data",
+}
 
 
 }
@@ -63,10 +74,15 @@ file { "/etc/nginx/nginx.conf":
 
 ### Services ###
 class nginx::services {
-notify { "Starting nginx ....": }
+notify { "Restarting nginx ....": }
 service {"nginx":
 	enable =>true,
 	ensure =>running,
+}
+exec { "/etc/init.d/nginx restart" :
+	command => "/etc/init.d/nginx restart",
+	require => Service["nginx"],
+
 }
 }
 

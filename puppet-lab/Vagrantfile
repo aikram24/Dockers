@@ -8,19 +8,18 @@ Vagrant.configure(2) do |config|
   config.vm.box = "puppetlabs/ubuntu-16.04-64-nocm"
   config.vm.hostname = 'nginx-server'
 
-# puppetlabs/ubuntu-16.04-64-nocm
 
 	# Setting up webserver
 	config.vm.define "web" do |web|
 		web.vm.hostname = "nginx-server"
-		web.vm.box	= "nginx"
 		web.vm.network	"private_network", type: "dhcp"
 		web.vm.network "forwarded_port", guest: 8000, host: 8000
+		# first install puppet package
+		config.vm.provision "shell", path: "provision.sh"
+		# now do the nginx magic
 		web.vm.provision "puppet" do |puppet|
 			puppet.manifests_path = "./puppet/manifests"
 		        puppet.manifest_file = "default.pp"
-			puppet.options = "--verbose"
-
 
 	end
 end
