@@ -36,7 +36,9 @@ package { $required_packages:
 
 ### Main Stuff ####
 class nginx::main {
-$full_web_path = '/docroot'
+
+$full_web_path = "/docroot"
+
 file { $full_web_path:
    ensure => directory,
    owner   => 0,
@@ -44,8 +46,7 @@ file { $full_web_path:
 }
 
 exec { "git clone":
-	#command => "/bin/ls -la $full_web_path/.git; if [ $? != 0 ] ; then  /usr/bin/git clone https://github.com/puppetlabs/exercise-webpage.git $full_web_path; else continue; fi",
-	command => "/usr/bin/git clone https://github.com/puppetlabs/exercise-webpage.git $full_web_path",
+	command => "/vagrant/script/clone-check.sh",
 	require => File[$full_web_path],
 	}
 
